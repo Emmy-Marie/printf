@@ -1,0 +1,41 @@
+#include "main.h"
+
+/**
+ * precision_count - A function that calculates the precision for printing
+ * @format: Formatted string in which to print the arguments
+ * @i: List of arguments to be printed.
+ * @print_list: list of arguments.
+ *
+ * Return: Precision.
+ */
+int precision_count(const char *format, int *i, va_list print_list)
+{
+        int curr_i = *i + 1;
+        int precision = -1;
+
+        if (format[curr_i] != '.')
+                return (precision);
+
+        precision = 0;
+
+        for (curr_i += 1; format[curr_i] != '\0'; curr_i++)
+        {
+                if (is_a_digit(format[curr_i]))
+                {
+                        precision *= 10;
+                        precision += format[curr_i] - '0';
+                }
+                else if (format[curr_i] == '*')
+                {
+                        curr_i++;
+                        precision = va_arg(print_list, int);
+                        break;
+                }
+                else
+                        break;
+        }
+
+        *i = curr_i - 1;
+
+        return (precision);
+}
